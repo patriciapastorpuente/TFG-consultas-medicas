@@ -1,0 +1,38 @@
+<header>
+  <div class="p-1 bg-dark text-white fixed-top mb-5"> 
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="px-3 col-3 align-items-center">
+          <a href="/inicio"><img src="/img/iconos/logo.png" href="/inicio" width="50" height="50"></a>
+        </div>
+
+        <div class="col-6 text-center">
+          <h3><a style:"text-decoration:none" href="/inicio"><div class="banner">Consulta médica</div></a></h3>
+        </div>
+
+        <% if(info != "") { %>
+          <div class="col-2 dropdown text-end">
+            <button class="btn btn-secondary dropdown-toggle holaNombre" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Hola <%= info.nombre %>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Editar perfil</a></li>
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalEliminarPerfil">Eliminar perfil</a></li>
+              <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+            </ul>
+          </div>
+          <div class="col-1"><img src="/imagenUsuario/<%=info.idUser%>" class="rounded-circle bg-secondary" width="50" height="50"></div>
+        <% } else { %>
+          <div class="col text-end">
+            <button type="button" class="btn btn-secondary botonIniciarSesion"><a href="/login" style="color: white; text-decoration: none;">Iniciar sesión</a></button>
+          </div>        
+          <div class="col-1"><img src="/img/iconos/login.png" width="50" height="50"></div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../modals/mEditarPerfil', {info: info, errores: []});%>
+  <%- include('../modals/mEliminarPerfil', {info: info, error: {}});%>
+
+</header>

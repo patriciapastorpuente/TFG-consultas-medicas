@@ -1,0 +1,29 @@
+<div class="modal fade" id="modalVerMensaje" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header" style="background-color:rgb(89, 183, 183)">
+        <h5 class="modal-title" id="exampleModalLabel">Detalles del mensaje</h5>
+        <button type="button" class="btn-close" onclick="window.location.href='/mensajeVisto/' + idMensaje.value" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="background-color:rgb(215,238,234)">
+        <div class="mb-3">
+            <label for="correoEmisor" class="form-label"><strong>De</strong></label>
+            <input type="text" class="form-control" id="idMensaje" value ="idMensaje"hidden />
+            <input type="text" class="form-control" id="idEmisor" value ="idEmisor"hidden />
+            <input type="text" class="form-control" id="correoEmisor" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="AsuntoM" class="form-label"><strong>Asunto</strong></label>
+            <input type="text" class="form-control" id="AsuntoM" readonly/>
+        </div>
+        <div class="mb-3">
+            <label for="textoMensaje" class="form-label"><strong>Mensaje</strong></label>
+            <textarea class="form-control" id="textoMensaje" rows="5" readonly></textarea>
+        </div>
+        </div>
+        <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+        <button type="button" class="btn btn-primary" onclick="responderCorreo(idEmisor.value, AsuntoM.value)" data-bs-dismiss="modal">Responder</button>
+        </div>
+    </div>
+    </div>
+</div>

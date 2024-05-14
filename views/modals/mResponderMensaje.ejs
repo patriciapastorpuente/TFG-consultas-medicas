@@ -1,0 +1,29 @@
+<div class="modal" id="modalResponderMensaje" tabindex="-1"><!--Codigo modal-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgb(89, 183, 183)">
+                <h5 class="modal-title"> Mensaje </h5><!--Titulo modal-->
+                <button type="button" class="btn-close" onclick="window.location.href='/mensajeVisto/' + idMensaje.value" data-bs-dismiss="modal" aria-label="Close" title="Cerrar"></button>
+            </div>
+            <form class="formCuerpo" method="post" id="formRespuesta" enctype="multipart/form-data">
+                <div class="modal-body" style="background-color:rgb(215,238,234)">
+                    <div class="mb-3"><!--Mensaje a enviar-->
+                        <input type="text" id="id_usuario" name="id_emisor" value="<%=info.idUser%>" class="form-control" hidden />
+                        <input type="text" id="fechaSist" name="fechaSist" value="" class="form-control" hidden />
+                        <label for="AsuntoMensaje" class="form-label"><strong>Asunto</strong></label>
+                        <input type="text" class="form-control" id="AsuntoMensaje" value="AsuntoMensaje" readonly/>
+                        <br>
+                        <label for="areaComentario" class="form-label">
+                            <h6><strong>Escribe tu mensaje</strong></h6>
+                        </label>
+                        <textarea class="form-control" id="areaMensaje" name="areaMensaje" rows="3" required></textarea>
+                        <p id="mensajeCompletar" hidden>Rellena todos los campos</p>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+                    <button type="submit" class="btn btn-primary" id="enviarCorreo" title="Enviar">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

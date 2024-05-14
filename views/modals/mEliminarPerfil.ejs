@@ -1,0 +1,96 @@
+<div class="modal fade" id="modalEliminarPerfil" tabindex="-1" aria-labelledby="modalEliminarPerfilLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg d-flex justify-content-center align-items-center">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:rgb(89, 183, 183)">
+          <h3> Eliminar perfil </h3><br>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Cerrar"></button>
+        </div>
+        <form method="POST" action="/eliminarPerfil/<%=info.idUser%>" id="formularioEliminarPerfil">
+            <div class="modal-body" style="background-color:rgb(215,238,234)">
+                    <p> Una vez pulses el botón, se cerrará tu sesión y no podrás volver a acceder con tu dirección de correo y contraseña.
+                        Si en un futuro deseas volver a utilizar los servicios del Portal del Paciente, podrás <strong>volver a registrarte con tus datos personales.</strong></p>
+                    <div class="row form-outline mt-2">
+                        <div class="col-3"><label class="form-label selecMotivo" for="motivoBaja">Motivo de baja <strong>(*)</strong></label></div>
+                        <div class="col">
+                        <select class="form-select" id="motivoBaja" name="motivoBaja" required>
+                            <option value="" selected disabled hidden>Seleccionar motivo...</option>
+                            <option value="1">No consigo ver mis datos</option>
+                            <option value="2">La información está incompleta y no obtengo respuesta</option>
+                            <option value="3">No continúo mi tratamiento en la clínica</option>
+                        </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row form-outline mt-2">
+                        <div class="col-5"><label class="form-label" for="deletePassword">Por favor, introduce tu contraseña</label></div>
+                        <div class="col">
+                            <div class="row"><input type="password" name="deletePassword" id="deletePassword" class="form-control" placeholder="**********" required></div>
+                            <div class="row"><span class="rojo" id="deletePassword-error"></span></div>
+                         </div>
+                    </div>
+            </div>
+            <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+                <button type="submit" class="btn btn-danger" id="darmeBajaButton">Dar de baja</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExitoEliminarPerfil" tabindex="-1" aria-labelledby="modalExitoEliminarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            Usuario dado de baja correctamente
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        // Limpiar el modal y errores cuando se cierre
+        $('#modalEliminarPerfil').on('hidden.bs.modal', function () {
+            // Ocultar errores y vaciar formulario
+            $('.rojo').hide();
+            $('#formularioEliminarPerfil')[0].reset();
+        });
+
+        $('#formularioEliminarPerfil').on('submit', function(e) {
+            e.preventDefault(); // Prevenir el envío del formulario por defecto
+    
+            $('.rojo').hide();
+
+            // Obtener la acción y los datos del formulario
+            var actionUrl = $(this).attr('action');
+            var formData = $(this).serialize();
+    
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: actionUrl,
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    // Si la solicitud es exitosa
+                    if (response.error) {
+                        console.log("Response error: " + response.error);
+                        // Si hay un error, mostrarlo en la ventana modal
+                        $('#deletePassword-error').text(response.error).show();
+                    } else {
+                      // Ocultamos el modal Editar, mostramos el mensaje de éxito y recargamos la página con los nuevos datos
+                      $('#modalEliminarPerfil').modal('hide');
+                      $('#modalExitoEliminarPerfil').modal('show');
+                      setTimeout(function() {
+                        $('#modalExitoEliminarPerfil').modal('hide');
+                        window.location.href = '/login';
+                      }, 1000);
+                    }
+                }
+            });
+        });    
+    });
+</script>

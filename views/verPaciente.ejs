@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/img/iconos/salud.png" type="image/png">        
+    <!--Añadimos bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/perfiles.css">
+    <title>Ficha paciente</title>
+</head>
+<body>
+
+    <%- include('./partials/header'); %>
+    <%- include('./partials/navbarMedico'); %>
+    <%- include('./partials/footer'); %>
+
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="card bg-light mb-3" style="max-width: 80%;">
+            <div class="card-header" style="background-color:rgb(89, 183, 183)">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="row">
+                            <a type="button" class="btn"  href="/listaPacientes"><img src="/img/iconos/flechaAtras.png" width="25" height="25" title="Volver a la lsita"></a>
+                            <h3 class="card-title"><%=paciente.nombre%> <%=paciente.apellidos%></h3>
+                            <h4 class="card-subitle text-muted">Ficha del paciente</h4>
+                        </div>
+                        <div class="row">
+                            <ul class ="datosPaciente">
+                                <li> <strong>Fecha de nacimiento: </strong><span id="fechaCumple"></span></li>
+                                <li><strong>Género: </strong><%=paciente.sexo%></li>
+                                <li><strong>DNI: </strong><%=paciente.dni%></li>
+                                <li><strong>Teléfono: </strong><span id="telefono"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-4"><img src="/imagenUsuario/<%=paciente.idUser%>" class="perfil-img" width="200" height="200"></div>
+                </div>
+            </div>
+
+            <div class="card-body">
+            <form class="d-flex align-items-center">
+                <input class="form-control me-2 " type="buscar" placeholder="Buscar" aria-label="Buscar" id="buscar">
+                <button class="btn btn-dark" type="submit">
+                <img src="/img/iconos/lupa.png"width="20" height="20">
+                </button>
+            </form>
+            <br>
+
+              <table class="table table-striped">
+                <thead class="text-center">
+                  <tr><!--Encabezado-->
+                    <!--Añado la clase cursor para en las css hacer que me aparezca clicable y el usuario lo pueda ver bien-->
+                    <th scope="col" class="cursor" id="fecha-ord">Fecha</th>
+                    <th scope="col" class="cursor" id="descripcion-ord">Descripción</th>
+                    <th scope="col" class="cursor" id="archivo-ord">Archivo</th>
+                    <th scope="col" class="cursor" id="archivo-ord">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <!--Informacion de la tabla-->
+                    <% informes.forEach(i => { %>
+                        <tr valign="middle" class ="fila text-center">
+                            <td class="busqueda"><%= new Date(i.fecha).toLocaleDateString() %></td>
+                            <td class="busqueda"><%=i.descripcion%></td>
+                            <td class="busqueda"><a type="button" class="btn" href="/verInforme/<%=i.id%>"><img src="/img/iconos/iconoPDF.png" width="25" height="25" title="Ver archivo"> <%=i.nombreArchivo%></a></td>
+                            <td>
+                                <a type="button" class="btn" >
+                                  <img src="/img/iconos/guardar2.png"width="25" height="25" title="Guardar archivo">
+                                </a>
+
+                                <a type="button" class="btn" title="Agregar" onclick="subirYEliminar('<%=paciente.idUser%>', '<%=paciente.nombre%>', '<%=paciente.apellidos%>', '<%=i.id%>')" >
+                                  <img src="/img/iconos/actualizar.png" width="25" height="25" title="Actualizar archivo">
+                                </a>                              
+  
+                                <a type="button" class="btn" href="/eliminarInforme/<%=paciente.idUser%>/<%=i.id%>">
+                                  <img src="/img/iconos/eliminar2.png" width="25" height="25" title="Eliminar archivo">
+                                </a>
+                            </td>
+                        </tr>
+                    <% });%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+    </div>
+
+    <%- include("./modals/mSubirInforme")%>
+
+    <div class="resto2"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/javascript/scripts.js" type="text/javascript"></script>
+    <!-- Scripts para el formato de los datos como fecha de nacimiento, o DNI... -->
+    <script>
+      $(document).ready(function() {
+
+        document.getElementById('botonActualizar').addEventListener('click', function() {
+          document.getElementById('archivoPDF').click();
+        });
+
+        // Obtener el número de teléfono del paciente
+        var telefono = '<%=paciente.telefono%>';
+
+        // Formatear el número de teléfono en el formato XXX XXX XXX
+        var telefonoFormateado = telefono.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+
+        // Asignar el número de teléfono formateado al elemento HTML correspondiente
+        document.getElementById('telefono').textContent = telefonoFormateado;
+
+        // Obtener la fecha del paciente
+        var fechaPaciente = new Date('<%=paciente.fecha%>');
+
+        // Formatear la fecha en el formato dd/mm/yyyy
+        var dia = fechaPaciente.getDate();
+        // Los meses en JavaScript se indexan desde 0
+        var mes = fechaPaciente.getMonth() + 1;
+        var año = fechaPaciente.getFullYear();
+
+        // Asegurarse de que el día y el mes tengan dos dígitos
+        if (dia < 10) {
+            dia = '0' + dia;
+        }
+        if (mes < 10) {
+            mes = '0' + mes;
+        }
+        // Crear el formato de la fecha
+        var fechaFormateada = dia + '/' + mes + '/' + año;
+        // Asignar la fecha formateada al elemento HTML correspondiente
+        document.getElementById('fechaCumple').textContent = fechaFormateada;
+
+        $("#buscar").keyup(function() {
+          var buscando = $(this).val().toLowerCase();
+
+          $("table tbody tr").each(function(){
+            var encontrado = false;
+            $(this).find("td").each(function(){
+              if ($(this).text().toLowerCase().indexOf(buscando) !== -1) {
+                encontrado = true;
+                return false;
+              }
+            });
+            if (encontrado) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+
+        function ordenarTabla(columna) {
+            var tbody = $('table tbody');
+            tbody.find('tr').sort(function(a, b) {
+              return $('td:eq(' + columna + ')', a).text().localeCompare($('td:eq(' + columna + ')', b).text());
+            }).appendTo(tbody);
+          }
+
+        // Manejador de evento para el clic en las columnas de la tabla
+        $('#fecha-ord').click(function(){
+          ordenarTabla(0);
+        });
+
+        $('#descripcion-ord').click(function(){
+          ordenarTabla(1);
+        });
+      });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

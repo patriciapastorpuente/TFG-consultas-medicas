@@ -1,0 +1,166 @@
+<div class="modal fade modalEditar" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg d-flex justify-content-center align-items-center">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:rgb(89, 183, 183)">
+        <h3> Editar perfil </h3><br>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Cerrar"></button>
+      </div>
+      <form method="POST" action="/editarPerfil/<%=info.idUser%>" id="formularioEditarPerfil">
+        <div class="modal-body" style="background-color:rgb(215,238,234)">
+            <div class="container">
+              <!-- OJO: no hay ningún campo que sea obligatorio porque es editarPerfil -->
+                <div class="row">
+                  <div class="col">
+                    <div class="row form-outline mt-2">
+                      <div class="col-4"><label for="nombre" class="form-label">Nombre</label></div>
+                      <!-- No hace falta pasarle el objeto info por parámetro (al id del modal) porque lo coge el middleware "acceso" -->
+                      <div class="col">
+                        <span class="rojo" id="nombre-error"></span>
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="<%=info.nombre%>"/>
+                      </div>
+                    </div>
+                    <div class="row form-outline mt-2">
+                      <div class="col-4"><label for="apellidos" class="form-label">Apellidos</label></div>
+                      <div class="col">
+                        <span class="rojo" id="apellidos-error"></span>
+                        <input type="text" id="apellidos" name="apellidos" class="form-control" placeholder="<%=info.apellidos%>"/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-3 text-center">
+                    <label for="image" class="form-image" style="border-radius: 20px;">
+                      <img src="/imagenUsuario/<%=info.idUser%>" width="100" height="100">
+                      <input accept="image/png,image/jpeg,image/jpg" type="file" name="image" id="image">
+                    </label>
+                  </div>
+                </div>
+
+                <div class="row form-outline mt-2">
+                  <div class="col-3"><label for="dni" class="form-label">DNI</label></div>
+                  <div class="col">
+                    <span class="rojo" id="dni-error"></span>
+                    <input type="text" id="dni" name="dni" class="form-control" placeholder="<%=info.dni%>"/>
+                  </div>
+                </div>
+
+                <div class="row form-outline mt-2">
+                  <div class="col-3"><label for="telefono" class="form-label">Teléfono</label></div>
+                  <div class="col">
+                    <span class="rojo" id="telefono-error"></span>
+                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="<%=info.telefono%>"/>
+                  </div>
+                </div>
+
+                <div class="row form-outline mt-2">
+                  <div class="col-3"><label class="form-label" for="email">Correo electrónico</label></div>
+                  <div class="col">
+                    <span class="rojo" id="email-error"></span>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="<%=info.email%>"/>
+                  </div>
+                </div>
+                <div class="row form-outline mt-2">
+                  <div class="col-3"><label class="form-label" for="password">Contraseña</label></div>
+                  <div class="col">
+                    <span class="rojo" id="password-error"></span>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="**********">
+                  </div>
+                </div>
+                <div class="row form-outline mt-2">
+                  <div class="col-3"><label class="form-label" for="confPassword">Confirmar contraseña</label></div>
+                  <div class="col">
+                    <span class="rojo" id="confPassword-error"></span>
+                    <input type="password" name="confPassword" id="confPassword" class="form-control" placeholder="**********">
+                  </div>
+                </div>
+                <span class="rojo" id="image-error"></span>
+            </div>
+        </div>
+        <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+          <button id="guardarCambiosBtn" type="submit" class="btn btn-success" disabled>Guardar cambios</button>
+        </div>      
+    </form>  
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="modalExitoEditarPerfil" tabindex="-1" aria-labelledby="modalExitoEditarPerfilLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        Perfil editado correctamente
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+
+    // Limpiar el modal y errores cuando se cierre
+    $('#modalEditarPerfil').on('hidden.bs.modal', function () {
+        // Ocultar errores y vaciar formulario
+        $('.rojo').hide();
+        $('#formularioEditarPerfil')[0].reset();
+    });
+
+    var formChanged = false;
+
+    // Evento input para cada campo del formulario
+    $('#formularioEditarPerfil input').on('input', function() {
+        // Verificar si algún campo está rellenado
+        formChanged = $('#formularioEditarPerfil input').filter(function() {
+          // Filtramos los campos que no estén vacíos
+          return $(this).val().trim() !== '';
+        }).length > 0;
+
+        verificarCambios();
+    });
+
+    function verificarCambios() {
+        if (formChanged) {
+            $('#guardarCambiosBtn').prop('disabled', false);
+        } else {
+            $('#guardarCambiosBtn').prop('disabled', true);
+        }
+    }
+
+    $('#formularioEditarPerfil').on('submit', function(e) {
+          e.preventDefault(); // Evita el envío predeterminado del formulario
+
+          $('.rojo').hide();
+
+          // Obtener la acción y los datos del formulario
+          var actionUrl = $(this).attr('action');
+          var formData = $(this).serialize();
+
+          // Realizar la solicitud AJAX al servidor
+          $.ajax({
+              type: 'POST',
+              url: actionUrl,
+              data: formData,
+              dataType: 'json',
+              success: function(response) {
+                  // Mostrar errores de validación encima de los campos correspondientes
+                  if (response.errores) {
+                    var errors = response.errores;
+                    Object.keys(errors).forEach(function(key) {
+                            $("#" + key + "-error").text(errors[key].msg).show();
+                    });
+                  } else {
+                    // Ocultamos el modal Editar, mostramos el mensaje de éxito y recargamos la página con los nuevos datos
+                      $('#modalEditarPerfil').modal('hide');
+                      $('#modalExitoEditarPerfil').modal('show');
+                      setTimeout(function() {
+                        $('#modalExitoEditarPerfil').modal('hide');
+                        window.location.reload(); // Recargar la página en la que me encuentre
+                      }, 1000);
+                  }
+              }
+          });
+      });
+  });
+</script>

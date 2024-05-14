@@ -1,0 +1,47 @@
+body {
+    background-image: url("../img/fondos/fondo3.jpg");
+    background-size: cover;
+}
+.resto {
+    margin-top: 200px;
+}
+.resto2 {
+    margin-top: 80px;
+}
+.bg-custom-card{
+    background-color: rgb(13, 73, 73) !important;
+}
+.card{
+    width: 50%;
+    font-size: 20px;
+}
+.form-login {
+    font-size: 15px;
+}
+input[type]{
+    font-size: 15px;
+}
+::placeholder {
+    font-size: 15px;
+}
+.rojo {
+    color: red;
+    font-size: small;
+    margin-top: 15px;
+}
+.verde {
+    color: green;
+    font-size: small;
+    margin-top: 15px;
+}
+.banner {
+    font-size: 15px;
+    font-style: italic;
+    color: white;
+    text-align: end;
+    padding: 5px;
+}
+.cuadroEmail {
+    width:80%;
+    margin:auto;
+}

@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div id="carouselNoticias" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <a href="https://www.nebrija.com/carreras-universitarias/grado-medicina/" target="_blank">
+                        <img src="/img/noticias/carousel1.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Grado en Medicina en Madrid</h5><br>
+                            <p>En un entorno innovador, práctico y humanista con los mejores profesionales. Estudia ya tu Grado en Medicina en la Universidad de Nebrija</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-item">
+                    <a href="https://sesmi.es/curso-presencial-de-formacion-continuada-sibo-sifo-y-micotoxinas/" target="_blank">
+                        <img src="/img/noticias/carousel2.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>CURSO PRESENCIAL DE FORMACIÓN CONTINUADA: “SIBO, SIFO Y MICOTOXINAS”</h5><br>
+                            <p>Se llevará a cabo el 25 de mayo de 2024, de 10 a 18 horas, en la Sala Sant Jordi del Seminari Conciliar de Barcelona, ubicado en la Calle Diputació, 231.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-item">
+                    <a href="https://www.ufv.es/la-ufv-ofertara-3-becas-anuales-del-100-en-el-grado-en-medicina-gracias-a-la-fundacion-nemesio-diez-noticias-de-actualidad-ufv/" target="_blank">
+                        <img src="/img/noticias/carousel3.webp" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>La UFV ofertará 3 becas anuales en el Grado en Medicina</h5><br>
+                            <p>La Universidad Francisco de Vitoria (UFV) ha firmado un Convenio específico de colaboración con la Fundación Nemesio Díez para promocionar 3 becas anuales del 100% de las mensualidades para alumnos con Expediente Académico Brillante.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-item">
+                    <a href="https://medicina.ucm.es/noticias/ecoe-de-5-y-6-de-medicina-2024" target="_blank">
+                        <img src="/img/noticias/carousel5.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>ECOE DE 5º Y 6º DE MEDICINA 2024</h5><br>
+                            <p>DOMINGO 14 DE ABRIL DE 2024 (MAÑANA Y TARDE) PARA ALUMNOS DEL HCSC Y HGUGM-HUILY SÁBADO 27 Y DOMINGO 28 DE ABRIL (MAÑANA Y TARDE) PARA ALUMNOS DEL HCSC, HGUGM-HUIL Y HUDO-HUIL</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-item">
+                    <a href="https://www.uma.es/facultad-de-medicina/noticias/alumnado-recauda-mas-de-dos-toneladas-de-alimentos-en-su-festival-benefico/" target="_blank">
+                        <img src="/img/noticias/carousel6.png" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Alumnado de Medicina recauda más de dos toneladas de alimentos en su festival benéfico</h5><br>
+                            <p>Ha recaudado de nuevo más de dos toneladas de alimentos que, en esta ocasión, irán destinados a dos asociaciones: Lagunillas-Cruz Verde y Los Ángeles de la noche</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="carousel-item">
+                    <a href="https://www.comast.es/noticias/actualidad/Estudiantes_de_Medicina_Mas_Alla_del_MIR" target="_blank">
+                        <img src="/img/noticias/carousel7.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Congreso de Estudiantes de Medicina en el ICOMAST "Más allá del MIR ¿y ahora qué?"</h5><br>
+                            <p>Un evento formativo organizado por y para los estudiantes de Medicina, que busca incentivar la formación activa continuada y práctica.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-item">
+                    <a href="https://www.icomem.es/comunicacion/noticias/4230/Ahora-el-ICOMEM-formara-tambien-en-medicina-de-estilo-de-vida" target="_blank">
+                        <img src="/img/noticias/carousel8.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>El ICOMEM formará también en medicina de estilo de vida</h5><br>
+                            <p>as sesiones estarán relacionadas con los ocho pilares básicos de la Medicina de Estilo de Vida, como nutrición saludable, actividad física, higiene del sueño, salud mental, relaciones sociales...</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselNoticias" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselNoticias" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var carousel = document.getElementById('carouselNoticias');
+            var myInterval = setInterval(function() {
+                var nextButton = carousel.querySelector('.carousel-control-next');
+                nextButton.click();
+            }, 4000);
+            
+            // Detener el intervalo cuando el mouse pasa sobre el carousel
+            carousel.addEventListener('mouseenter', function() {
+                clearInterval(myInterval);
+            });
+            
+            // Reanudar el intervalo cuando el mouse sale del carousel
+            carousel.addEventListener('mouseleave', function() {
+                myInterval = setInterval(function() {
+                    var nextButton = carousel.querySelector('.carousel-control-next');
+                    nextButton.click()
+                }, 4000);
+            });
+        });
+    </script>
+    
+</div>

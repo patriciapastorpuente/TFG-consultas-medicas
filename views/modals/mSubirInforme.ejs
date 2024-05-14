@@ -1,0 +1,59 @@
+<div class="modal fade" id="modalInforme">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header" style="background-color:rgb(89, 183, 183)">
+              <h5 class="modal-title"> Subir nuevo informe </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Cerrar"></button>
+          </div>
+          <form class="formCuerpo" id="formInforme" enctype="multipart/form-data">
+              <div class="modal-body" style="background-color:rgb(215,238,234)">
+                <div class="row">
+                  <div class="mb-3">
+                    <!--datos ocultos del modal-->
+                    <input type="text" id="id_paciente" name="id_paciente" value="" class="form-control" hidden />
+                    <input type="text" id="nombreUsu" name="nombreUsu" value="" class="form-control" hidden />
+                    <input type="text" id="apellidosUsu" name="apellidosUsu" value="" class="form-control" hidden />
+                    <input type="text" id="fecha" name="fecha" value="" class="form-control" hidden />
+                    <label for="descripcion" class="form-label">
+                        <h6><strong>Descripción </strong></h6>
+                    </label>
+                    <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Analítica..." required />
+                  </div><br>
+                </div>
+                <div class="row mb-3">
+                    <label class="form-label" for="archivo">Seleccionar un archivo PDF: </label>
+                    <input type="file" accept="application/pdf" name="archivo" id="archivo" class="form-control" value="Seleccionar archivo" required onchange="getFileName(this)" />
+                </div>
+                <input type="hidden" id="nombreArchivo" name="nombreArchivo">
+                <br>
+              </div>
+              <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+                  <button type="submit" class="btn btn-success" id="subirInforme" title="Confirmar">Subir informe</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/javascript/scripts.js" type="text/javascript"></script>
+
+<script>
+// Captura la fecha actual del sistema
+  var fechaActual = new Date();
+
+  // Formatea la fecha en el formato deseado (por ejemplo, yyyy-mm-dd)
+  var fechaFormateada = fechaActual.getFullYear() + '-' + ('0' + (fechaActual.getMonth() + 1)).slice(-2) + '-' + ('0' + fechaActual.getDate()).slice(-2);
+
+  // Asigna la fecha formateada al campo de entrada de texto
+  document.getElementById('fecha').value = fechaFormateada;
+
+  function getFileName(input) {
+    if (input.files && input.files[0]) {
+        var fileName = input.files[0].name; // Obtener el nombre del archivo
+        // Asignar el nombre del archivo al campo oculto en el formulario
+        document.getElementById('nombreArchivo').value = fileName;
+    }
+  }
+
+</script>

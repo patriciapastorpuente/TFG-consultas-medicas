@@ -1,0 +1,62 @@
+<div class="modal fade" id="modalIniciarSesion" tabindex="-1" aria-labelledby="modalIniciarSesionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modalIniciarSesion">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalIniciarSesionLabel">Por favor, inicie sesión para continuar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <!-- Contenido del formulario de inicio de sesión -->
+        <form id="modalLoginForm" method="POST" action="/modalLogin">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="emailModal" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="emailModal" name="emailModal" placeholder="paciente@gmail.com">
+            </div>
+            <div class="mb-3">
+              <label for="passwordModal" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="passwordModal" name="passwordModal" placeholder="********">
+              <div class="row"><span class="rojo" id="passwordModal-error"></span></div>
+            </div>              
+            <div class="row d-flex justify-content-center">
+              <p class="small fw-bold mt-2 pt-1 mb-2">¿Aún no tienes una cuenta? <a href="/registro"class="link">Regístrate aquí</a>
+            </div>
+          </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#modalIniciarSesion').on('hidden.bs.modal', function () {
+        $('.rojo').hide();
+        $('#modalLoginForm')[0].reset();
+    });
+    $('#modalLoginForm').on('submit', function(e) {
+        e.preventDefault();
+        $('.rojo').hide();
+        var actionUrl = $(this).attr('action');
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: actionUrl,
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+              if (response.error) {
+                $('#passwordModal-error').text(response.error).show();
+              } else {
+                $('#modalIniciarSesion').modal('hide');
+                window.location.href = '/inicio';
+              }
+            }
+        });
+    });    
+  });
+</script>

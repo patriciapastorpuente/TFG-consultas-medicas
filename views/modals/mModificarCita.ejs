@@ -1,0 +1,28 @@
+<div class="modal fade" id="modalModificarReserva" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgb(89, 183, 183)"">
+                <h5 class="modal-title"> Modificar cita </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Cerrar"></button>
+            </div>
+            <form class="formCuerpo" id="formModificarCita">
+                <div class="modal-body" style="background-color:rgb(215,238,234)">
+                    <div class="mb-3">
+                        <!--datos ocultos del modal-->
+                        <input type="text" id="id_citaModificar" name="id_citaModificar" value="" class="form-control" hidden />
+                        <!--Cogemos la fecha de la reserva-->
+                        <label for="nombre" class="form-label">
+                            <h6><strong>Fecha </strong></h6>
+                        </label>
+                        <input type="date" id="fecha" name="fecha" class="form-control" onchange="seleccionarHora(event);" required />
+                        <div class="valid-feedback">Fecha correcto</div>
+                    </div><br>
+                    <div class="mb-3" id="horasDispo"></div><br>
+                </div>
+                <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+                    <button type="submit" class="btn btn-success" id="modificarCita" title="Confirmar">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

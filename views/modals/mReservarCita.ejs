@@ -1,0 +1,87 @@
+<div class="modal fade" id="modalReserva" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgb(89, 183, 183)">
+                <h5 class="modal-title"> Reservar nueva cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Cerrar"></button>
+            </div>
+            <form class="formCuerpo" id="formReserva" action="/reservarCita" type="POST">
+                <div class="modal-body" style="background-color:rgb(215,238,234)">
+                        <!-- datos ocultos del modal-->
+                        <input type="text" id="id_usuario" name="id_usuario" value="<%=info.idUser%>" class="form-control" hidden />
+                        <input type="text" id="nombre_usuario" name="nombre_usuario" value="<%=info.nombre%>" class="form-control" hidden />
+                        <input type="text" id="apellido_usuario" name="apellido_usuario" value="<%=info.apellidos%>" class="form-control" hidden />
+                        <input type="text" id="email_usuario" name="email_usuario" value="<%=info.email%>" class="form-control" hidden />
+                           <!-- cogemos el médico-->
+                           <label for="nombre" class="form-label">
+                            <h6><strong>Selecciona un médico</strong></h6>
+                        </label>
+                        <select class="form-select" id="id_medico" name="id_medico" onchange="datosCita()" required>
+                            <option value="" disabled selected hidden>Seleccione un médico...</option>
+                            <% medicos.forEach(m => { %>
+                                <option value="<%=m.id%>"><%=m.nombre%> <%=m.apellidos%></option>
+                            <% });%>
+                        </select>
+                         <!-- cogemos el tipo de reserva-->
+                         <label for="nombre" class="form-label" id="tipoOculta" hidden>
+                            <h6><strong>Tipo de cita </strong></h6>
+                        </label>
+                        <select class="form-select" id="tipoReserva" name="tipoReserva" required hidden>
+                            <option value="" disabled selected hidden>Seleccione el tipo de consulta...</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Telefónica">Telefónica</option>
+                            <option value="Videoconferencia">Videoconferencia</option>
+                        </select>                    
+                        <!-- cogemos la fecha de la reserva-->
+                        <label for="nombre" class="form-label" id="fechaOculta" hidden>
+                            <h6><strong>Fecha </strong></h6>
+                        </label>
+                        <input type="date" id="fecha" name="fecha" class="form-control" onchange="seleccionarHora(event, document.getElementById('id_medico').value);" required hidden/>
+                        <div class="valid-feedback">Fecha correcta</div>
+                    <div class="mt-3" id="horasDispo"></div>
+
+                    <!-- Habilitamos checkbox para poder pagar en consulta en caso de ser presencial -->
+                    <div class="form-check mt-3" id="opcionesPago" style="display: none;">
+                        <input class="form-check-input" type="checkbox" value="pagarConsulta" id="pagarConsultaCheckbox">
+                        <label class="form-check-label" for="pagarConsultaCheckbox">Pagar en la consulta</label>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="background-color:rgb(89, 183, 183)">
+                    <button type="submit" class="btn btn-success" id="reservarDirecto" style="display: none;" title="Reservar">Reservar</button>
+                    <button type="submit" class="btn btn-primary" id="continuarAlPago" style="display: none;" title="Confirmar">Continuar al pago</button>
+                    <br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#modalReserva').on('hidden.bs.modal', function () {
+            $('#formReserva')[0].reset();
+            $('#opcionesPago').hide();
+            $('#hora').hide();
+        });
+
+        $('#reservarDirecto').click(function(e) {
+            e.preventDefault();
+
+            var formData = $('#formReserva').serialize();
+
+            $.ajax({
+                url: "/reservarCita",
+                type: 'POST',
+                data: formData,
+                dataType: "JSON",
+                success: function(data) {
+                    console.log(data);
+                    $('#modalReserva').modal('hide');
+                    alert(data.success);
+                }
+            });
+        });
+    })
+</script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/img/iconos/salud.png" type="image/png">        
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/perfiles.css">
+    <title>Pago completado</title>
+</head>
+<body>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card bg-custom-card text-white mt-3 mb-5" style="border-radius:1rem;">
+          <div class="card-body text-center">
+            <p>Tu pago se ha realizado con éxito y tu reserva ha sido programada.</p>
+            <a class="linkRecuperacion" href="../inicio"><span>Volver a la página de inicio</span></a>
+          </div>
+        </div>
+      </div>
+    
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Recupera los datos del formulario que habíamos guardado localmente
+            const formData = JSON.parse(localStorage.getItem("formData"));
+        
+            if (formData) {
+                // Envíamos los datos del formulario al servidor mediante AJAX
+                $.ajax({
+                    url: "/reservarCita",
+                    type: 'POST',
+                    data: formData,
+                    dataType: "JSON",
+                    success: (data) => {
+                        console.log(data);
+                    },
+                });
+            }
+        });
+    </script>
+</body>
+</html>

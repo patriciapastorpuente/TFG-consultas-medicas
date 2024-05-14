@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/img/iconos/salud.png" type="image/png">        
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/perfiles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.js"></script>
+  <title>Pacientes</title>
+</head>
+<body>
+  <%- include('./partials/header');%>
+  <%- include('./partials/navbarMedico') %>
+  <%- include('./partials/footer'); %>
+
+  <div class="container d-flex justify-content-center">
+      <div class="card bg-custom-card mt-3" style="border-radius: 1rem;">
+          <div class="card-body  text-center">
+            <h1 class="mb-4 text-center text-white">Lista de pacientes</h1>
+            <form class="d-flex align-items-center">
+              <input class="form-control me-2 " type="buscar" placeholder="Buscar" aria-label="Buscar" id="buscar">
+              <button class="btn btn-dark" type="submit"><img src="/img/iconos/lupa.png"width="20" height="20"></button>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary mb-4" id="pdfout" onclick="imprimirContenido()">Descargar lista completa</button>
+            <table class="table table-striped">
+                <thead>
+                  <tr><!--Encabezado-->
+                    <!--Añado la clase cursor para en las css hacer que me aparezca clicable y el usuario lo pueda ver bien-->
+                    <th scope="col" class="cursor"></th>
+                    <th scope="col" class="cursor" id="nombre-ord">Nombre</th>
+                    <th scope="col" class="cursor" id="apellido-ord">Apellidos</th>
+                    <th scope="col" class="cursor" id="fecha-ord">Fecha de nacimiento</th>
+                    <th scope="col" class="cursor" id="sexo-ord">Género</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody id="cuerpoTablaPacientes" style="vertical-align: middle;">
+                    <!--Informacion de la tabla-->
+                    <% usuarios.forEach(u => { %>
+                        <tr class ="fila">
+                            <td><a type="button" class="btn"  href="/verPaciente/<%=u.id%>"><img src="/img/iconos/ver1.png" width="25" height="25" title="Ver datos"></a></td>
+                            <td class="busqueda"><%=u.nombre%></td>
+                            <td class="busqueda"><%=u.apellidos%></td>
+                            <td class="busqueda"><%= new Date(u.fecha).toLocaleDateString() %></td>
+                            <td class="busqueda"><%=u.sexo%></td>
+                            <td>
+                              <a type="button" class="btn"  title="Agregar" onclick="subirInforme('<%= u.id %>', '<%= u.nombre %>', '<%= u.apellidos %>')">
+                                <img src="/img/iconos/subirInforme2.png" width="25" height="25" title="Subir informe">
+                              </a>
+                              <a type="button" class="btn" onclick="confirmarArchivado('<%= u.id %>')"><img src="/img/iconos/archivar.png" width="25" height="25" title="Archivar paciente"></a>
+                            </td>
+                        </tr>
+                    <% });%>
+                </tbody>
+            </table>
+          </div>
+      </div>
+  </div>
+
+  <%- include("./modals/mSubirInforme")%>
+  
+  <div class="resto2"></div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/javascript/scripts.js" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+      $("#buscar").keyup(function(){
+        var buscando = $(this).val().toLowerCase();
+
+        $("table tbody tr").each(function(){
+          var encontrado = false;
+          $(this).find("td").each(function(){
+            if ($(this).text().toLowerCase().indexOf(buscando) !== -1) {
+              encontrado = true;
+              return false;
+            }
+          });
+          if (encontrado) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+      });
+
+      function ordenarTabla(columna) {
+          var tbody = $('table tbody');
+          tbody.find('tr').sort(function(a, b) {
+            return $('td:eq(' + columna + ')', a).text().localeCompare($('td:eq(' + columna + ')', b).text());
+          }).appendTo(tbody);
+        }
+
+      // Manejador de evento para el clic en las columnas de la tabla
+      $('#nombre-ord').click(function(){
+        ordenarTabla(1);
+      });
+      $('#apellido-ord').click(function(){
+        ordenarTabla(2);
+      });
+      $('#fecha-ord').click(function(){
+        ordenarTabla(3);
+      });
+      $('#sexo-ord').click(function(){
+        ordenarTabla(4);
+      });
+    });
+
+    // Captura la fecha actual del sistema
+    var fechaActual = new Date();
+
+    // Formatea la fecha en el formato deseado (por ejemplo, yyyy-mm-dd)
+    var fechaFormateada = fechaActual.getFullYear() + '-' + ('0' + (fechaActual.getMonth() + 1)).slice(-2) + '-' + ('0' + fechaActual.getDate()).slice(-2);
+
+    // Asigna la fecha formateada al campo de entrada de texto
+    document.getElementById('fecha').value = fechaFormateada;
+
+    function getFileName(input) {
+      if (input.files && input.files[0]) {
+          var fileName = input.files[0].name; // Obtener el nombre del archivo
+          // Asignar el nombre del archivo al campo oculto en el formulario
+          document.getElementById('nombreArchivo').value = fileName;
+      }
+    }
+
+    window.jsPDF = window.jspdf.jsPDF;
+    function imprimirContenido() {
+
+    // Obtener la tabla de citas HTML
+    var maintable = document.getElementById('cuerpoTablaPacientes');
+    var pdfout = document.getElementById('pdfout');
+
+    pdfout.onclick = function () {
+    // generamos el PDF, p = portrait, en vertical
+    // pt = points, conteo de puntos; y a4 = tamaño del papel
+    var doc = new jsPDF('p', 'pt', 'a4');
+    var margin = 20;
+    var scale = (doc.internal.pageSize.width - margin * 2) / document.body.clientWidth;
+
+    if(window.innerWidth > 768) {
+      doc.html(maintable, {
+        x:margin,
+        y:margin,
+        html2canvas:{
+          scale: scale,
+        },
+        callback: function(doc) {
+          doc.save('Pacientes.pdf');
+        }
+      })
+    }
+      }
+    }
+
+    function confirmarArchivado(idPaciente) {
+      if (confirm("¿Estás seguro de que quieres archivar este paciente?")) {
+        window.location.href = "/bajaPaciente/" + idPaciente; // Redirige a la página de archivo del paciente si el usuario confirma
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

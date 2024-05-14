@@ -1,0 +1,161 @@
+.btn {
+    width: fit-content;
+}
+
+.resto {
+    margin-top: 80px;
+}
+
+.resto2 {
+    padding-bottom: 150px;
+}
+
+body {
+    background-image: url("../img/fondos/fondo3.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.rojo {
+    font-size: 12px; /* Establecer el tamaño de fuente predeterminado */
+    color: red;
+    display: none;
+}
+
+.navbar{
+    background-color: rgb(11, 128, 132);
+    position: fixed;
+    top: 50px;
+    width: 100%;
+    z-index: 1000; /* para evitar superposiciones */
+}
+
+.espacio {
+    margin-top: 100px;
+}
+
+.nav-link{
+    color: white !important;
+}
+
+.bg-custom-card{
+    background-color: rgb(57, 122, 122) !important;
+}
+
+.banner {
+    color: #78d5cb !important;
+    text-decoration: none !important; 
+}
+.botonIniciarSesion  {
+    text-align: center;
+    text-decoration: none !important; 
+    color: white !important;
+}
+.form-image {
+    display: inline-block;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Estilo para ocultar el input de tipo file y posicionar la imagen sobre él */
+.form-image input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#darDeBaja:hover {
+    cursor: pointer;   
+}
+
+#selecMotivo:hover {
+    cursor: pointer;   
+}
+
+#holaNombre:hover {
+    cursor: pointer;   
+}
+
+::placeholder {
+    font-size: 15px;
+}
+
+.cursor{
+    cursor: default;
+}
+
+ul.datosPaciente li {
+    margin-left: 30px;
+}
+
+.perfil-img {
+    border-radius: 20%;
+    margin-right: 50px;
+}
+
+#carouselNoticias {
+    text-align: center;
+    width: 60%;
+    height: 400px;
+}
+.carousel-item .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}
+.carousel-caption h5, .carousel-caption p {
+    color: white;
+    margin: 0;
+}
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+}
+#modalIniciarSesion .modal-body {
+    background-color: #daefeb;
+}
+#modalIniciarSesion .modal-footer {
+    background-color: #78d5cb;
+    text-align: center;
+}
+#modalIniciarSesion .modal-header {
+    background-color: #78d5cb;
+}
+.todoCuerpo {
+    text-align: center;
+}
+#consulta-template {
+    border:black;
+    border-style: dotted;
+}
+#modalReserva .form-label {
+    margin-top: 20px;
+}
+a {
+    text-decoration: none;
+}
+
+.linkRecuperacion {
+    color:red;
+    text-decoration: underline;
+}
+
+.error-pago {
+    color:red;
+}
+
+.navbar-nav .nav-item .active {
+    font-weight: bold;
+}
+
+tbody {
+    vertical-align: middle;
+}

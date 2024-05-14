@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="icon" href="/img/iconos/salud.png" type="image/png">        
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Cambio de contraseña</title>
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card bg-custom-card text-white mt-3 mb-5" style="border-radius:1rem;">
+      <div class="card-body text-center">
+        <img src="/img/iconos/login.png" width="120" height="120">
+        <form action="/cambiar-contrasena/<%=token%>" method="POST">
+            <div class="row justify-content-center">
+                <div class="col-10 mb-4">
+                    <label class="form-label" for="resetPassword">Contraseña</label>
+                    <input type="password" name="resetPassword" id="resetPassword" class="form-control" placeholder="**********" required>
+                    <% if(validaciones.resetPassword){%>
+                        <span class ="rojo" id="resetPassword1">
+                        <%= validaciones.resetPassword.msg %>        
+                        </span>
+                    <% } %>  
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 mb-4">
+                    <label class="form-label" for="resetConfPassword">Confirmar contraseña</label>
+                    <input type="password" name="resetConfPassword" id="resetConfPassword" class="form-control" placeholder="**********" required>
+                    <% if(validaciones.resetConfPassword){%>
+                        <span class ="rojo" id="resetConfPassword1">
+                            <%= validaciones.resetConfPassword.msg %>     
+                        </span>
+                    <% } %>
+                </div>
+            </div>
+            <% if (error) { %>
+                <p class="rojo"><%= error %></p>
+            <% } %>
+            <% if (success) { %>
+                <p class="verde"><%= success %></p>
+            <% } %>
+            <button type="submit" class="btn btn-success">Cambiar contraseña</button>
+        </form>
+        <br><br>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
